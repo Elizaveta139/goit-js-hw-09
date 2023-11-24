@@ -34,9 +34,9 @@ function onButtonSubmit(evt) {
   let stepEl = Number(step.value);
   let amountEl = Number(amount.value);
 
-  // let delay = Number(formRef.delay.value);
-  // let step = Number(formRef.step.value);
-  // let amount = Number(formRef.amount.value);
+  // let delayEl = Number(formRef.delay.value);
+  // let stepEl = Number(formRef.step.value);
+  // let amountEl = Number(formRef.amount.value);
 
   // console.log(delayEl);
   // console.log(stepEl);
