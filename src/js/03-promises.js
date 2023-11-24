@@ -13,6 +13,7 @@ formRef.addEventListener('submit', onButtonSubmit);
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
+
     setTimeout(() => {
       if (shouldResolve) {
         resolve({ position, delay });
@@ -27,21 +28,20 @@ function createPromise(position, delay) {
 function onButtonSubmit(evt) {
   evt.preventDefault();
 
-  const { delay, step, amount } = evt.currentTarget.elements;
+  // const { delay, step, amount } = evt.currentTarget.elements;
 
-  let delayEl = Number(delay.value);
-  let stepEl = Number(step.value);
-  let amountEl = Number(amount.value);
+  let delay = Number(formRef.delay.value);
+  let stepEl = Number(formRef.step.value);
+  let amountEl = Number(formRef.amount.value);
 
   // console.log(delayEl);
   // console.log(stepEl);
   // console.log(amountEl);
 
   //перебираємо і викликаємо функцію для створення промісу
-  for (let i = 1; i <= amountEl; i += 1) {
-    delayEl += stepEl;
 
-    createPromise(i, delayEl)
+  for (let i = 1; i <= amountEl; i += 1) {
+    createPromise(i, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
           `✅ Fulfilled promise ${position} in ${delay}ms`
@@ -52,6 +52,7 @@ function onButtonSubmit(evt) {
           `❌ Rejected promise ${position} in ${delay}ms`
         );
       });
+    delay += stepEl;
   }
 
   // formRef.reset();
