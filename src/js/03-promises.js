@@ -2,58 +2,102 @@
 // скільки ввели в поле amount. Під час кожного виклику передай їй номер промісу (position), що створюється,
 // і затримку, враховуючи першу затримку (delay), введену користувачем, і крок (step).
 
-import Notiflix from 'notiflix';
+// import Notiflix from 'notiflix';
 
+// const formRef = document.querySelector('.form');
+// // const BtnRef = document.querySelector('.form button');
+
+// formRef.addEventListener('submit', onButtonSubmit);
+
+// //створення проміса : номер проміса і затримка
+// function createPromise(position, delay) {
+//   const shouldResolve = Math.random() > 0.3;
+
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (shouldResolve) {
+//         resolve({ position, delay });
+//       } else {
+//         reject({ position, delay });
+//       }
+//     }, delay);
+//   });
+// }
+
+// //при настисканні на кпопку
+// function onButtonSubmit(evt) {
+//   evt.preventDefault();
+
+//   // const { delay, step, amount } = evt.currentTarget.elements;
+
+//   let delay = Number(formRef.delay.value);
+//   let step = Number(formRef.step.value);
+//   let amount = Number(formRef.amount.value);
+
+//   // console.log(delayEl);
+//   // console.log(stepEl);
+//   // console.log(amountEl);
+
+//   //перебираємо і викликаємо функцію для створення промісу
+
+//   for (let i = 1; i <= amount; i += 1) {
+//     createPromise(i, delay)
+//       .then(({ position, delay }) => {
+//         Notiflix.Notify.success(
+//           `✅ Fulfilled promise ${position} in ${delay}ms`
+//         );
+//       })
+//       .catch(({ position, delay }) => {
+//         Notiflix.Notify.failure(
+//           `❌ Rejected promise ${position} in ${delay}ms`
+//         );
+//       });
+//     delay += step;
+//   }
+
+//   //   // formRef.reset();
+// }
+
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+// Get form element
 const formRef = document.querySelector('.form');
-// const BtnRef = document.querySelector('.form button');
 
-formRef.addEventListener('submit', onButtonSubmit);
+// Set event listener submit on form
+formRef.addEventListener('submit', onSubmitForm);
 
-//створення проміса : номер проміса і затримка
+// Submit form
+function onSubmitForm(e) {
+  e.preventDefault();
+
+  let delay = Number(formRef.delay.value);
+
+  for (let i = 1; i <= formRef.amount.value; i += 1) {
+    createPromise(i, delay)
+      .then(({ position, delay }) => {
+        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
+    delay += Number(formRef.step.value);
+  }
+}
+
+// Create promise
 function createPromise(position, delay) {
-  return new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
+  const obj = { position, delay };
+  const shouldResolve = Math.random() > 0.3;
 
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (shouldResolve) {
-        resolve({ position, delay });
+        // Fulfill
+        resolve(obj);
       } else {
-        reject({ position, delay });
+        // Reject
+        reject(obj);
       }
     }, delay);
   });
-}
-
-//при настисканні на кпопку
-function onButtonSubmit(evt) {
-  evt.preventDefault();
-
-  // const { delay, step, amount } = evt.currentTarget.elements;
-
-  let delay = Number(formRef.delay.value);
-  let stepEl = Number(formRef.step.value);
-  let amountEl = Number(formRef.amount.value);
-
-  // console.log(delayEl);
-  // console.log(stepEl);
-  // console.log(amountEl);
-
-  //перебираємо і викликаємо функцію для створення промісу
-
-  for (let i = 1; i <= amountEl; i += 1) {
-    createPromise(i, delay)
-      .then(({ position, delay }) => {
-        Notiflix.Notify.success(
-          `✅ Fulfilled promise ${position} in ${delay}ms`
-        );
-      })
-      .catch(({ position, delay }) => {
-        Notiflix.Notify.failure(
-          `❌ Rejected promise ${position} in ${delay}ms`
-        );
-      });
-    delay += stepEl;
-  }
-
-  // formRef.reset();
 }
