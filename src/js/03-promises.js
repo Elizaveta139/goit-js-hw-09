@@ -56,7 +56,7 @@ function onButtonSubmit(evt) {
           `❌ Rejected promise ${position} in ${delay}ms`
         );
       });
-    delay += stepEl;
+    delayEl += stepEl;
   }
 
   //   // formRef.reset();
